@@ -13,7 +13,7 @@
 
   var leveldbDB = new NodePouchDB('mydb-leveldb');
 
-  var remoteCouch = false;
+  var remoteCouch = 'http://127.0.0.1:4985/todo';
 
   leveldbDB.info(function(err,info){
     leveldbDB.changes({
@@ -70,7 +70,10 @@
   }
 
   function sync() {
+    syncDom.setAttribute('data-sync-state','syncing');
 
+    var opts = {live:true};
+    leveldbDB.sync(remoteCouch,opts,syncError);
   }
 
   function createTodoListItem(todo) {
