@@ -1,11 +1,11 @@
 {
   "name": "hello-electron-with-pouchdb",
   "version": "1.0.0",
-  "description": "A minimal Electron application, with PouchDB",
+  "description": "A todo Electron application, with PouchDB and Couchbase",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "postinstall": "bash postinstall.sh"
+    "postinstall": "postinstall.bat"
   },
   "devDependencies": {
     "electron-prebuilt": "^1.2.0"
