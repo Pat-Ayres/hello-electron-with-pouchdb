@@ -2,7 +2,7 @@
 
 This is a demo app that integrates PouchDB with Couchbase in Electron.
 
-It was originally forked from Nola Lawson's repo https://github.com/nolanlawson/hello-electron-with-pouchdb
+It was originally forked from Nolan Lawson's repo https://github.com/nolanlawson/hello-electron-with-pouchdb
 
 Starting with that base, I am implementing a simple todo app that can store data offline using PouchDB and sync to Couchbase server using Couchbase Sync Gateway when a connection is available.
 
