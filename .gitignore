@@ -2,3 +2,4 @@ node_modules
 mydb-*
 _pouch_mydb-sqlite
 link.to.couchbase_sync_gateway
+serverconfig.js

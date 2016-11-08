@@ -10,16 +10,17 @@
   // LevelDB
 
   var NodePouchDB = require('pouchdb');
+  var serverConfig = require('./serverconfig.js').serverConfig;
 
   var leveldbDB = new NodePouchDB('mydb-leveldb');
 
-  var remoteCouch = 'http://127.0.0.1:4985/todo';
+  var remoteCouch = new NodePouchDB(serverConfig.couchbaseSyncAddress);
 
-  leveldbDB.info(function(err,info){
+  leveldbDB.info(function (err, info) {
     leveldbDB.changes({
       since: info.update_seq,
-      live:true
-    }).on('change',showTodos);
+      live: true
+    }).on('change', showTodos);
   });
 
   leveldbDB.info().then(function (info) {
@@ -61,7 +62,7 @@
 
   function todoBlurred(todo, event) {
     var trimmedText = event.target.value.trim();
-    if (!trimmedText){
+    if (!trimmedText) {
       leveldbDB.remove(todo);
     } else {
       todo.title = trimmedText;
@@ -70,10 +71,14 @@
   }
 
   function sync() {
-    syncDom.setAttribute('data-sync-state','syncing');
+    syncDom.setAttribute('data-sync-state', 'syncing');
 
-    var opts = {live:true};
-    leveldbDB.sync(remoteCouch,opts,syncError);
+    var opts = { live: true, retry: true };
+    leveldbDB.sync(remoteCouch, opts, syncError).on('change', function (change) {
+      showTodos();
+    }).on('error', function (err) {
+      console.log(err);
+    });
   }
 
   function createTodoListItem(todo) {
