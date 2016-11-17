@@ -5,12 +5,14 @@
   var $ = document.querySelector.bind(document);
   var ENTER_KEY = 13;
   var newTodoDom = document.getElementById('new-todo');
+  var reportRunnerDom = document.getElementById('btnRunReport');
   var syncDom = document.getElementById('sync-wrapper');
 
   // LevelDB
 
   var NodePouchDB = require('pouchdb');
   var serverConfig = require('./serverconfig.js').serverConfig;
+  var reportRunner = require('./reportrunner.js').generateReport;
 
   var leveldbDB = new NodePouchDB('mydb-leveldb');
 
@@ -152,8 +154,24 @@
     }
   }
 
+  function runReportBtnHandler(event){
+    leveldbDB.allDocs({ include_docs: true, descending: true }).then(function(todos){
+      console.log(todos);
+      let todoReportData = [];
+      todos.rows.forEach(function(todo){
+        todoReportData.push(todo.doc);
+      })
+      reportRunner(todoReportData);
+      // reportRunner(todos.rows)
+      // todos.rows.forEach(function(todo){
+      //   reportRunner(todo.doc)
+      // })
+    })
+  }
+
   function addEventListeners() {
     newTodoDom.addEventListener('keypress', newTodoKeyPressHandler, false);
+    reportRunnerDom.addEventListener('click', runReportBtnHandler, false);
   }
 
   addEventListeners();

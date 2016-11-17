@@ -8,7 +8,8 @@
     "postinstall": "postinstall.bat"
   },
   "devDependencies": {
-    "electron-prebuilt": "^1.2.0"
+    "electron-prebuilt": "^1.2.0",
+    "fluentreports": "^1.1.3"
   },
   "dependencies": {
     "pouchdb": "^5.4.5"
