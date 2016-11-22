@@ -4,3 +4,5 @@ _pouch_mydb-sqlite
 link.to.couchbase_sync_gateway
 serverconfig.js
 *.pdf
+manifestReports
+*~

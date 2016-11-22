@@ -6,6 +6,7 @@
   var ENTER_KEY = 13;
   var newTodoDom = document.getElementById('new-todo');
   var reportRunnerDom = document.getElementById('btnRunReport');
+  var manifestReportRunnerDom = document.getElementById('btnRunManifestReport');
   var syncDom = document.getElementById('sync-wrapper');
 
   // LevelDB
@@ -13,6 +14,8 @@
   var NodePouchDB = require('pouchdb');
   var serverConfig = require('./serverconfig.js').serverConfig;
   var reportRunner = require('./reportrunner.js').generateReport;
+  var manifestReportRunner = require('./manifestReports/manifestReportRunner.js').generateReport;
+  var manifestMock = require('./manifestReports/manifestMock.js').mockManifest;
 
   var leveldbDB = new NodePouchDB('mydb-leveldb');
 
@@ -161,17 +164,19 @@
       todos.rows.forEach(function(todo){
         todoReportData.push(todo.doc);
       })
+      // reportRunner(manifestMock.header);
       reportRunner(todoReportData);
-      // reportRunner(todos.rows)
-      // todos.rows.forEach(function(todo){
-      //   reportRunner(todo.doc)
-      // })
     })
+  }
+
+  function runManifestReportBtnHandler(event){
+    manifestReportRunner();
   }
 
   function addEventListeners() {
     newTodoDom.addEventListener('keypress', newTodoKeyPressHandler, false);
     reportRunnerDom.addEventListener('click', runReportBtnHandler, false);
+    manifestReportRunnerDom.addEventListener('click', runManifestReportBtnHandler, false);
   }
 
   addEventListeners();
